@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block bodyclass %}feed-page{% endblock %}
+{% block scripts %}<script src="{{ url_for('static',filename='feed.js') }}" defer></script>{% endblock %}
+{% block content %}
+<div class="archive-shell">
+  <aside class="fleet-sidebar">
+    <a class="wordmark" href="/"><span class="brand-symbol">V1</span><span>VX ONE<span class="brand-sub">TECH FORUM</span></span></a>
+    <div class="sidebar-current"><span class="mini-chat" aria-hidden="true">≡</span> Conversation archive</div>
+    <div class="sidebar-history">
+      <p class="eyebrow">IN THE ARCHIVE</p>
+      <p class="history-number">{{ '{:,}'.format(stats.count) }}<span>messages</span></p>
+      {% if stats.earliest %}<p class="history-range">{{ stats.earliest[:10] }}<br><span>through</span><br>{{ stats.latest[:10] }}</p>{% else %}<p class="history-range">Ready for your first export.</p>{% endif %}
+    </div>
+    <div class="sidebar-bottom">
+      {% if admin %}<a href="{{ url_for('admin') }}">Manage archive</a>{% else %}<a href="{{ url_for('admin_login') }}">Administrator sign in</a>{% endif %}
+      <form action="{{ url_for('logout') }}" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit" class="text-button">Sign out</button></form>
+      <p>For the fleet. From the fleet.</p>
+    </div>
+  </aside>
+  <main class="conversation-main">
+    <header class="conversation-header">
+      <div><p class="eyebrow">VX ONE OWNERS</p><h1>Tech Forum</h1></div>
+      <div class="header-actions"><span class="private-label">Fleet archive</span><a class="mobile-admin" href="{{ url_for('admin' if admin else 'admin_login') }}">Admin</a><form class="mobile-signout" action="{{ url_for('logout') }}" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="text-button" type="submit">Sign out</button></form></div>
+    </header>
+    <div class="search-toolbar">
+      <form id="search-form" class="search-form" role="search">
+        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
+        <label class="sr-only" for="search-input">Search all archived messages</label>
+        <input id="search-input" type="search" placeholder="Search the conversation…" autocomplete="off" maxlength="300">
+        <button class="search-submit" type="submit">Search</button>
+      </form>
+      <button id="back-results" class="button subtle" hidden>Search results</button>
+      <p class="search-hint">Rigging, tuning, repairs — search all the history.</p>
+    </div>
+    <div class="conversation-workspace" id="workspace">
+      <section id="search-panel" class="search-panel" aria-label="Search results" hidden>
+        <div class="results-header"><div><h2>Search results</h2><p id="result-count" aria-live="polite"></p></div><button id="close-search" class="icon-button" aria-label="Close search results">×</button></div>
+        <div id="results" class="results-list"></div>
+        <button id="more-results" class="button subtle" hidden>More results</button>
+      </section>
+      <section class="feed-panel" aria-label="Archived conversation">
+        <div id="context-bar" class="context-bar" hidden><span id="context-label">Viewing a search result</span><button id="context-latest" class="text-button">Jump to latest</button></div>
+        <div id="feed-scroll" class="feed-scroll" tabindex="0" aria-label="Messages; scroll up for older history">
+          <div id="older-status" class="feed-status"></div>
+          <div id="messages" class="messages"></div>
+          <div id="newer-status" class="feed-status"></div>
+        </div>
+        <button id="jump-latest" class="button latest-button" hidden>Jump to latest</button>
+        <div id="feed-announcement" class="sr-only" aria-live="polite"></div>
+      </section>
+    </div>
+    <footer class="archive-footer"><span>Read-only conversation archive</span><span>{% if stats.last_import %}Updated {{ stats.last_import[:10] }}{% else %}Awaiting first import{% endif %}</span></footer>
+  </main>
+</div>
+<noscript><p class="no-script">Please enable JavaScript to browse and search the conversation.</p></noscript>
+{% endblock %}

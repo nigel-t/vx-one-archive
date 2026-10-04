@@ -1,0 +1,22 @@
+[Unit]
+Description=VX One private technical archive
+After=network.target
+
+[Service]
+Type=simple
+User=vxarchive
+Group=vxarchive
+WorkingDirectory=/opt/vx-one-archive
+EnvironmentFile=/etc/vx-one-archive.env
+ExecStart=/opt/vx-one-archive/.venv/bin/gunicorn --bind 127.0.0.1:8765 --workers 2 --threads 4 --timeout 180 'app:create_app()'
+Restart=on-failure
+RestartSec=5
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/vx-one-archive
+
+[Install]
+WantedBy=multi-user.target

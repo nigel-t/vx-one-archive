@@ -1,0 +1,5 @@
+# Add this block to the existing Caddy configuration if Caddy already serves other sites.
+vxonetech.currentdesign.ca {
+    encode zstd gzip
+    reverse_proxy 127.0.0.1:8765
+}

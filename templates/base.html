@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="description" content="The private VX One fleet technical conversation archive.">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <title>{% block title %}VX One · Tech Forum{% endblock %}</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static',filename='favicon.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+  {% block scripts %}{% endblock %}
+</head>
+<body class="{% block bodyclass %}{% endblock %}">
+{% block content %}{% endblock %}
+</body>
+</html>

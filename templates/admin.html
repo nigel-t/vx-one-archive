@@ -1,0 +1,19 @@
+{% extends 'admin_base.html' %}
+{% block admin_content %}
+<div class="admin-heading"><div><p class="eyebrow">ADMINISTRATOR</p><h1>Keep the archive current</h1><p>Add an export whenever you want to bring the conversation up to date.</p></div><a class="button subtle" href="{{ url_for('index') }}">Open conversation</a></div>
+<div class="admin-grid">
+  <section class="panel"><h2>Import a WhatsApp export</h2><p class="panel-copy">Upload the ZIP from Export Chat → Include Media. Older and newer exports can be added in any order.</p>
+    <form id="upload-form" action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="upload-box"><label for="archive">WhatsApp ZIP file</label><input id="archive" name="archive" type="file" accept=".zip,application/zip" required><p>Up to 512 MB. Existing messages are kept; overlapping messages are skipped.</p></div>
+      <div class="date-choice"><label for="date-order">Date format in the chat export</label><select name="date_order" id="date-order"><option value="day-first">Day / month / year</option><option value="month-first">Month / day / year</option></select><p class="helper">Dates written as year-month-day are detected automatically. Times stay as written in the export.</p></div>
+      <button id="upload-button" type="submit" class="button primary wide">Import ZIP</button><p id="upload-status" class="helper" aria-live="polite"></p>
+    </form>
+  </section>
+  <section class="panel"><h2>Your archive</h2><div class="archive-summary"><div><span class="stat-value">{{ '{:,}'.format(stats.count) }}</span><span class="stat-label">messages</span></div><div><span class="stat-value">{{ stats.senders }}</span><span class="stat-label">sender records</span></div></div>
+    <div class="summary-period">Available history<strong>{% if stats.earliest %}{{ stats.earliest[:10] }} through {{ stats.latest[:10] }}{% else %}No messages imported yet{% endif %}</strong>{% if stats.last_import %}Last import {{ stats.last_import[:10] }}{% endif %}</div>
+    <a href="{{ url_for('senders') }}" class="button subtle">Manage sender names</a><p class="helper">Names appear as first name and last initial. Unnamed phone numbers appear as their last four digits.</p>
+  </section>
+</div>
+<section class="panel imports-panel"><h2>Recent imports</h2>{% for item in imports %}<div class="import-row"><div><div class="import-filename">{{ item.filename }}</div><p class="import-details">{{ item.details.added }} new messages · {{ item.details.duplicates }} already in archive · {{ item.details.media_added }} attachments added</p><p class="import-details">{{ item.details.earliest[:10] }} – {{ item.details.latest[:10] }}{% if item.details.missing_media %} · {{ item.details.missing_media }} attachments absent from this export{% endif %}</p></div><time class="import-date" datetime="{{ item.imported_at }}">{{ item.imported_at[:10] }}</time></div>{% else %}<p class="panel-copy">Your first import will appear here.</p>{% endfor %}</section>
+{% endblock %}

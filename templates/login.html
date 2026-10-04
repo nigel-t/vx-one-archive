@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Sign in · VX One Tech Forum{% endblock %}
+{% block bodyclass %}login-page{% endblock %}
+{% block content %}
+<main class="login-shell">
+  <a class="wordmark login-brand" href="{{ url_for('login') }}" aria-label="VX One archive"><span class="brand-symbol">V1</span><span>VX ONE<span class="brand-sub">TECH FORUM</span></span></a>
+  <section class="login-card">
+    <p class="eyebrow">{% if admin %}ADMINISTRATOR{% else %}FLEET ARCHIVE{% endif %}</p>
+    <h1>{% if admin %}Keep the conversation current.{% else %}Years of boat talk.<br>All in one place.{% endif %}</h1>
+    <p class="login-copy">{% if admin %}Sign in to upload exports and manage sender names.{% else %}Search the VX One fleet’s past conversations, advice, and photos.{% endif %}</p>
+    {% if error %}<p class="notice error" role="alert">{{ error }}</p>{% endif %}
+    <form method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <label for="password">{% if admin %}Administrator password{% else %}Fleet password{% endif %}</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" required maxlength="256" autofocus>
+      <label class="check"><input type="checkbox" name="remember" value="yes"> Keep me signed in on this device</label>
+      <button class="button primary wide" type="submit">{% if admin %}Sign in as administrator{% else %}Open the archive{% endif %}</button>
+    </form>
+    <p class="login-foot">{% if admin %}<a href="{{ url_for('login') }}">Fleet sign in</a>{% else %}For members of the VX One technical forum.<br><a href="{{ url_for('admin_login') }}">Administrator sign in</a>{% endif %}</p>
+  </section>
+  <p class="login-caption">VX ONE OWNERS · TECHNICAL CONVERSATIONS</p>
+</main>
+{% endblock %}
