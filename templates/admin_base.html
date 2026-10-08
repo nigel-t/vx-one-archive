@@ -4,7 +4,7 @@
 {% block scripts %}<script src="{{ url_for('static',filename='admin.js') }}" defer></script>{% endblock %}
 {% block content %}
 <header class="admin-nav">
-  <a class="wordmark" href="{{ url_for('index') }}"><span class="brand-symbol">V1</span><span>VX ONE<span class="brand-sub">TECH FORUM</span></span></a>
+  <a class="wordmark" href="{{ url_for('index') }}"><img class="brand-logo" src="{{ url_for('static', filename='vx-one-logo.png') }}" alt="VX One" width="126" height="48"><span>VX ONE<span class="brand-sub">TECH FORUM</span></span></a>
   <nav class="admin-nav-links" aria-label="Administrator navigation"><a href="{{ url_for('index') }}">Conversation</a><a href="{{ url_for('admin') }}">Imports</a><a href="{{ url_for('senders') }}">Senders</a><form method="post" action="{{ url_for('logout') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="text-button" type="submit">Sign out</button></form></nav>
 </header>
 <main class="admin-content">

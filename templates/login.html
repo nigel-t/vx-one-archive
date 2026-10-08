@@ -3,11 +3,11 @@
 {% block bodyclass %}login-page{% endblock %}
 {% block content %}
 <main class="login-shell">
-  <a class="wordmark login-brand" href="{{ url_for('login') }}" aria-label="VX One archive"><span class="brand-symbol">V1</span><span>VX ONE<span class="brand-sub">TECH FORUM</span></span></a>
+  <a class="wordmark login-brand" href="{{ url_for('login') }}" aria-label="VX One archive"><img class="brand-logo" src="{{ url_for('static', filename='vx-one-logo.png') }}" alt="VX One" width="126" height="48"><span>VX ONE<span class="brand-sub">TECH FORUM</span></span></a>
   <section class="login-card">
     <p class="eyebrow">{% if admin %}ADMINISTRATOR{% else %}FLEET ARCHIVE{% endif %}</p>
     <h1>{% if admin %}Keep the conversation current.{% else %}Years of boat talk.<br>All in one place.{% endif %}</h1>
-    <p class="login-copy">{% if admin %}Sign in to upload exports and manage sender names.{% else %}Search the VX One fleet’s past conversations, advice, and photos.{% endif %}</p>
+    <p class="login-copy">{% if admin %}Sign in to upload exports and manage sender names.{% else %}Search the VX One fleet’s WhatsApp tech forum archive.{% endif %}</p>
     {% if error %}<p class="notice error" role="alert">{{ error }}</p>{% endif %}
     <form method="post">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
